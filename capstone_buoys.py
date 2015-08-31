@@ -24,39 +24,42 @@
 # - How a buoy get an ID: http://www.ndbc.noaa.gov/staid.shtml
 # - All the station IDs: http://www.ndbc.noaa.gov/to_station.shtml
 
-# In[1]:
-
-url = 'http://www.ndbc.noaa.gov/data/realtime2/44255.txt'
-
-
-# In[35]:
-
-import requests #Library for getting stuff from web
-
-
-# In[36]:
-
-response = requests.get(url)
-
-
-# In[37]:
-
-type(response.text)
-
-
-# In[38]:
+# In[96]:
 
 #So convert into 
-import StringIO #For converting into strings
-data_str = StringIO.StringIO(response.text)
-
-
-# In[39]:
+import StringIO #For converting into strings   #Moving earlier to allow for importing all buoys.txt
 
 import pandas as pd #cf. Excel. Go-to for data processing #as pd is just giving shortcut
 
+import requests #Library for getting stuff from web
 
-# In[44]:
+import pylab  
+
+import numpy as np
+from numpy import nan
+
+import matplotlib.pyplot as plt
+
+
+# In[82]:
+
+# Retrieve data
+# url = 'http://www.ndbc.noaa.gov/data/realtime2/44255.txt'
+url = 'http://www.ndbc.noaa.gov/view_text_file.php?filename=44011h2012.txt.gz&dir=data/historical/stdmet/'
+response = requests.get(url)
+
+
+# In[83]:
+
+# type(response.text)
+
+
+# In[84]:
+
+data_str = StringIO.StringIO(response.text)
+
+
+# In[85]:
 
 data = pd.read_csv(StringIO.StringIO(response.text), 
                    delim_whitespace=True, 
@@ -64,32 +67,47 @@ data = pd.read_csv(StringIO.StringIO(response.text),
                    usecols=[0,1,2,3,6,8])
 
 
-# In[47]:
+# In[126]:
 
-import numpy as np
-from numpy import nan
+# import numpy as np
+# from numpy import nan #moved to top
 data=data.replace('MM', nan)
+data=data.replace('99', nan)
 data=data.dropna(axis=0)
 
+z = np.polyfit(data.WSPD, data.WVHT, 2)
+p = np.poly1d(z)
+wspd=range(20)
+pylab.plot(wspd,p(wspd))
 
-# In[53]:
+# the line equation:
+# print “y=%.6fx+(%.6f)”%(z[0],z[1])
+
+
+# import scipy.signal
+# detrended=scipy.signal.detrend(data.WSPD, data.WVHT)
+
+
+# In[110]:
 
 get_ipython().magic(u'matplotlib inline')
-import matplotlib.pyplot as plt
-data.WSPD.plot()
+
+plt.plot(data.WSPD, data.WVHT, '*')
+
+# data.WSPD.plot()
 
 
-# In[54]:
+# In[88]:
 
 print data.WSPD.mean()
 
 
-# In[ ]:
+# In[89]:
 
 #nbviewer.com
 
 
-# In[ ]:
+# In[90]:
 
-
+import capstone_buoys #after saving to cd as .py
 
