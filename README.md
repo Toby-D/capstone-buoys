@@ -12,3 +12,6 @@ Objectives could include:
 -Plot results in spectacular fashion
 -...
 
+Guidelines
+-Make edits the python notebook, and let the script just be a copy of that.
+-Um, that's it :)
