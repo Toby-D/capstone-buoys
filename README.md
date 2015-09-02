@@ -8,13 +8,7 @@ Goal: Write a python script that automatically fetches historical wind, wave dat
 Challenges:
 -Fetch data for individual buoy for a single year and find least-square fit between windspeed and wave height (Done -Toby-D)
 
--Average 5 years of data for buoy
+-Find relationship between windspeed and wave height (as above) for all buoys in "all_buoys.txt" whose numbers start with "44..." (buoys in the northwest Atlantic).
 
--Repeat with all buoys starting with "44..." by calling entries in "all_buoys.txt"
-
--Plot results in spectacular fashion
 -...
 
-Guidelines
--Make edits the python notebook, and let the script just be a copy of that.
--Um, that's it :)
